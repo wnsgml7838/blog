@@ -1,0 +1,152 @@
+---
+layout: default
+---
+
+<article class="post tutorial-post">
+    <header class="post-header">
+        <div class="tutorial-badge">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12,2A3,3 0 0,1 15,5V11A3,3 0 0,1 12,14A3,3 0 0,1 9,11V5A3,3 0 0,1 12,2M19,11C19,14.53 16.39,17.44 13,17.93V21H11V17.93C7.61,17.44 5,14.53 5,11H7A5,5 0 0,0 12,16A5,5 0 0,0 17,11H19Z"/>
+            </svg>
+            튜토리얼
+        </div>
+        
+        <h1 class="post-title">{{ page.title }}</h1>
+        
+        <div class="tutorial-overview">
+            <div class="tutorial-meta">
+                <div class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
+                    </svg>
+                    {% include reading-time.html %}
+                </div>
+                
+                {% if page.difficulty %}
+                <div class="meta-item">
+                    {% include difficulty-badge.html difficulty=page.difficulty %}
+                </div>
+                {% endif %}
+                
+                {% if page.tutorial_steps %}
+                <div class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M2,12A10,10 0 0,1 12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22A10,10 0 0,1 2,12M10,17L15.5,11.5L14.08,10.08L10,14.17L6.92,11.09L5.5,12.5L10,17Z"/>
+                    </svg>
+                    {{ page.tutorial_steps }}단계
+                </div>
+                {% endif %}
+                
+                <time datetime="{{ page.date | date_to_xmlschema }}" class="meta-item">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19,3H18V1H16V3H8V1H6V3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19M5,6V5H19V6H5Z"/>
+                    </svg>
+                    {{ page.date | date: "%Y년 %m월 %d일" }}
+                </time>
+            </div>
+            
+            {% if page.description %}
+            <div class="tutorial-description">
+                <p>{{ page.description }}</p>
+            </div>
+            {% endif %}
+            
+            <!-- 튜토리얼 목차 -->
+            {% if page.tutorial_toc %}
+            <div class="tutorial-toc">
+                <h4>튜토리얼 목차</h4>
+                <ol>
+                    {% for item in page.tutorial_toc %}
+                    <li><a href="#{{ item.id }}">{{ item.title }}</a></li>
+                    {% endfor %}
+                </ol>
+            </div>
+            {% endif %}
+            
+            <!-- 필요한 사전 지식 -->
+            {% if page.prerequisites %}
+            <div class="tutorial-prerequisites">
+                <h4>필요한 사전 지식</h4>
+                <ul>
+                    {% for prerequisite in page.prerequisites %}
+                    <li>{{ prerequisite }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+            
+            <!-- 사용할 도구/기술 -->
+            {% if page.tools %}
+            <div class="tutorial-tools">
+                <h4>사용할 도구</h4>
+                <div class="tools-grid">
+                    {% for tool in page.tools %}
+                    <span class="tool-tag">{{ tool }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="post-content tutorial-content">
+        {{ content }}
+    </div>
+
+    <!-- 튜토리얼 완료 상태 -->
+    {% if site.tech_blog.tutorial.completion_rewards %}
+    <div class="tutorial-completion">
+        <div class="completion-status" id="tutorial-completion">
+            <h3>🎉 튜토리얼 완료!</h3>
+            <p>모든 단계를 완료하셨습니다. 수고하셨습니다!</p>
+            <div class="completion-actions">
+                <button class="btn btn-primary" onclick="resetTutorialProgress()">다시 시작</button>
+                {% if page.next_tutorial %}
+                <a href="{{ page.next_tutorial }}" class="btn btn-outline">다음 튜토리얼</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if page.comments %}
+        <div class="post-comments">
+            <!-- 댓글 시스템을 여기에 추가할 수 있습니다 -->
+        </div>
+    {% endif %}
+</article>
+
+<!-- 튜토리얼 네비게이션 -->
+<nav class="tutorial-navigation">
+    {% if page.previous.url and page.previous.layout == 'tutorial' %}
+        <a class="prev tutorial-nav-link" href="{{ page.previous.url | relative_url }}">
+            <div class="nav-icon">←</div>
+            <div class="nav-content">
+                <span class="nav-label">이전 튜토리얼</span>
+                <span class="nav-title">{{ page.previous.title }}</span>
+            </div>
+        </a>
+    {% endif %}
+    
+    {% if page.next.url and page.next.layout == 'tutorial' %}
+        <a class="next tutorial-nav-link" href="{{ page.next.url | relative_url }}">
+            <div class="nav-content">
+                <span class="nav-label">다음 튜토리얼</span>
+                <span class="nav-title">{{ page.next.title }}</span>
+            </div>
+            <div class="nav-icon">→</div>
+        </a>
+    {% endif %}
+</nav>
+
+<script>
+function resetTutorialProgress() {
+    if (confirm('튜토리얼 진행 상태를 초기화하시겠습니까?')) {
+        const pageUrl = window.location.pathname;
+        const progress = JSON.parse(localStorage.getItem('tech-blog-tutorial-progress') || '{}');
+        delete progress[pageUrl];
+        localStorage.setItem('tech-blog-tutorial-progress', JSON.stringify(progress));
+        location.reload();
+    }
+}
+</script>

@@ -1,0 +1,46 @@
+<!-- 난이도 배지 컴포넌트 -->
+{%- assign difficulty = include.difficulty | default: page.difficulty | default: "중급" -%}
+{%- assign show_icon = include.show_icon | default: true -%}
+
+{%- case difficulty -%}
+  {%- when "초급" or "beginner" -%}
+    {%- assign level = "beginner" -%}
+    {%- assign stars = 1 -%}
+    {%- assign color = "green" -%}
+  {%- when "중급" or "intermediate" -%}
+    {%- assign level = "intermediate" -%}
+    {%- assign stars = 2 -%}
+    {%- assign color = "blue" -%}
+  {%- when "고급" or "advanced" -%}
+    {%- assign level = "advanced" -%}
+    {%- assign stars = 3 -%}
+    {%- assign color = "purple" -%}
+  {%- when "전문가" or "expert" -%}
+    {%- assign level = "expert" -%}
+    {%- assign stars = 4 -%}
+    {%- assign color = "red" -%}
+  {%- else -%}
+    {%- assign level = "intermediate" -%}
+    {%- assign stars = 2 -%}
+    {%- assign color = "blue" -%}
+{%- endcase -%}
+
+<div class="difficulty-badge difficulty-{{ level }}" data-level="{{ level }}" title="난이도: {{ difficulty }}">
+  {% if show_icon %}
+  <div class="difficulty-icon">
+    {% for i in (1..4) %}
+      {% if i <= stars %}
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" class="star filled">
+          <path d="M12,17.27L18.18,21L16.54,13.97L22,9.24L14.81,8.62L12,2L9.19,8.62L2,9.24L7.46,13.97L5.82,21L12,17.27Z"/>
+        </svg>
+      {% else %}
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" class="star empty">
+          <path d="M12,15.39L8.24,17.66L9.23,13.38L5.91,10.5L10.29,10.13L12,6.09L13.71,10.13L18.09,10.5L14.77,13.38L15.76,17.66M22,9.24L14.81,8.63L12,2L9.19,8.63L2,9.24L7.45,13.97L5.82,21L12,17.27L18.18,21L16.54,13.97L22,9.24Z"/>
+        </svg>
+      {% endif %}
+    {% endfor %}
+  </div>
+  {% endif %}
+  
+  <span class="difficulty-text">{{ difficulty }}</span>
+</div>

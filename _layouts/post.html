@@ -9,6 +9,16 @@ layout: default
             <time datetime="{{ page.date | date_to_xmlschema }}">
                 {{ page.date | date: "%Y년 %m월 %d일" }}
             </time>
+            
+            <!-- 읽기 시간 -->
+            {% include reading-time.html %}
+            
+            <!-- 난이도 배지 -->
+            {% if page.difficulty %}
+                {% include difficulty-badge.html difficulty=page.difficulty %}
+            {% endif %}
+            
+            <!-- 카테고리 -->
             {% if page.categories.size > 0 %}
                 <span class="post-categories">
                     {% for category in page.categories %}
@@ -16,6 +26,8 @@ layout: default
                     {% endfor %}
                 </span>
             {% endif %}
+            
+            <!-- 태그 -->
             {% if page.tags.size > 0 %}
                 <span class="post-tags">
                     {% for tag in page.tags %}
@@ -23,7 +35,29 @@ layout: default
                     {% endfor %}
                 </span>
             {% endif %}
+            
+            <!-- 필요한 사전 지식 -->
+            {% if page.prerequisites %}
+                <div class="post-prerequisites">
+                    <span class="prerequisites-label">필요한 사전 지식:</span>
+                    {% for prerequisite in page.prerequisites %}
+                        <span class="prerequisite-tag">{{ prerequisite }}</span>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
+        
+        <!-- 기술 스택 (포스트별) -->
+        {% if page.tech_stack %}
+            <div class="post-tech-stack">
+                <h4>사용 기술</h4>
+                <div class="tech-tags">
+                    {% for tech in page.tech_stack %}
+                        <span class="tech-tag">{{ tech }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
     </header>
 
     <div class="post-content">

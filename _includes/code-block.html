@@ -1,0 +1,78 @@
+<!-- 고급 코드 블록 컴포넌트 -->
+<!-- 사용법: {% include code-block.html language="javascript" title="main.js" file_name="main.js" version="ES2023" copy=true %} -->
+
+{%- assign lang = include.language | default: 'text' -%}
+{%- assign title = include.title -%}
+{%- assign file_name = include.file_name -%}
+{%- assign version = include.version -%}
+{%- assign copy = include.copy | default: true -%}
+{%- assign line_numbers = include.line_numbers | default: site.tech_blog.code_highlighting.line_numbers -%}
+{%- assign highlight = include.highlight -%}
+{%- assign diff = include.diff | default: false -%}
+
+<div class="code-block-container" data-language="{{ lang }}">
+  {% if title or file_name or version %}
+  <div class="code-block-header">
+    <div class="code-block-info">
+      {% if file_name %}
+        <span class="code-file-name">
+          <svg class="file-icon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"/>
+          </svg>
+          {{ file_name }}
+        </span>
+      {% endif %}
+      
+      {% if title %}
+        <span class="code-title">{{ title }}</span>
+      {% endif %}
+      
+      {% if version %}
+        <span class="code-version">{{ version }}</span>
+      {% endif %}
+    </div>
+    
+    <div class="code-block-actions">
+      {% if site.tech_blog.code_highlighting.language_badges %}
+        <span class="language-badge" data-lang="{{ lang }}">{{ lang }}</span>
+      {% endif %}
+      
+      {% if copy and site.tech_blog.code_highlighting.copy_button %}
+        <button class="copy-code-btn" aria-label="코드 복사" title="코드 복사">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19,21H8V7H19M19,5H8A2,2 0 0,0 6,7V21A2,2 0 0,0 8,23H19A2,2 0 0,0 21,21V7A2,2 0 0,0 19,5M16,1H4A2,2 0 0,0 2,3V17H4V3H16V1Z"/>
+          </svg>
+          <span class="copy-text">복사</span>
+        </button>
+      {% endif %}
+    </div>
+  </div>
+  {% endif %}
+  
+  <div class="code-block-content">
+    {% if diff %}
+      <div class="code-diff">
+        {{ include.content }}
+      </div>
+    {% else %}
+      {% if line_numbers %}
+        <div class="highlight line-numbers">
+      {% else %}
+        <div class="highlight">
+      {% endif %}
+        <pre><code class="language-{{ lang }}"{% if highlight %} data-highlight="{{ highlight }}"{% endif %}>{{ include.content | strip }}</code></pre>
+        </div>
+    {% endif %}
+  </div>
+  
+  {% if include.notes %}
+  <div class="code-block-notes">
+    <h4>💡 코드 설명</h4>
+    <ul>
+      {% for note in include.notes %}
+        <li>{{ note }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+</div>

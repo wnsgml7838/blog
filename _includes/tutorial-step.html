@@ -1,0 +1,102 @@
+<!-- 튜토리얼 단계 컴포넌트 -->
+<!-- 사용법: {% include tutorial-step.html step="1" title="프로젝트 설정" total_steps="5" %} -->
+
+{%- assign step = include.step | plus: 0 -%}
+{%- assign title = include.title -%}
+{%- assign total_steps = include.total_steps | plus: 0 -%}
+{%- assign description = include.description -%}
+{%- assign duration = include.duration -%}
+{%- assign difficulty = include.difficulty | default: "중급" -%}
+
+<div class="tutorial-step" data-step="{{ step }}">
+  <div class="tutorial-step-header">
+    <div class="tutorial-step-number">
+      <span class="step-badge">{{ step }}</span>
+      <div class="step-progress">
+        <div class="step-progress-bar" style="width: {{ step | times: 100.0 | divided_by: total_steps }}%"></div>
+      </div>
+    </div>
+    
+    <div class="tutorial-step-info">
+      <h3 class="tutorial-step-title">
+        <span class="step-label">Step {{ step }}/{{ total_steps }}</span>
+        {{ title }}
+      </h3>
+      
+      <div class="tutorial-step-meta">
+        {% if duration %}
+          <span class="tutorial-duration">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12,20A8,8 0 0,0 20,12A8,8 0 0,0 12,4A8,8 0 0,0 4,12A8,8 0 0,0 12,20M12,2A10,10 0 0,1 22,12A10,10 0 0,1 12,22C6.47,22 2,17.5 2,12A10,10 0 0,1 12,2M12.5,7V12.25L17,14.92L16.25,16.15L11,13V7H12.5Z"/>
+            </svg>
+            {{ duration }}
+          </span>
+        {% endif %}
+        
+        <span class="tutorial-difficulty difficulty-{{ difficulty | downcase }}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12,2L13.09,8.26L22,9L13.09,9.74L12,16L10.91,9.74L2,9L10.91,8.26L12,2Z"/>
+          </svg>
+          {{ difficulty }}
+        </span>
+      </div>
+    </div>
+    
+    {% if site.tech_blog.tutorial.progress_tracking %}
+    <div class="tutorial-step-actions">
+      <button class="step-complete-btn" onclick="markStepComplete('{{ step }}')" aria-label="단계 완료">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M21,7L9,19L3.5,13.5L4.91,12.09L9,16.17L19.59,5.59L21,7Z"/>
+        </svg>
+        완료
+      </button>
+    </div>
+    {% endif %}
+  </div>
+  
+  {% if description %}
+  <div class="tutorial-step-description">
+    <p>{{ description }}</p>
+  </div>
+  {% endif %}
+  
+  <div class="tutorial-step-content">
+    {{ include.content }}
+  </div>
+  
+  {% if include.checkpoints %}
+  <div class="tutorial-checkpoints">
+    <h4>✅ 체크포인트</h4>
+    <ul class="checkpoint-list">
+      {% for checkpoint in include.checkpoints %}
+      <li class="checkpoint-item">
+        <input type="checkbox" id="checkpoint-{{ step }}-{{ forloop.index }}" class="checkpoint-input">
+        <label for="checkpoint-{{ step }}-{{ forloop.index }}">{{ checkpoint }}</label>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  
+  {% if include.tips %}
+  <div class="tutorial-tips">
+    <h4>💡 도움말</h4>
+    <ul>
+      {% for tip in include.tips %}
+      <li>{{ tip }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  {% endif %}
+  
+  {% if include.next_step %}
+  <div class="tutorial-navigation">
+    <a href="#step-{{ step | plus: 1 }}" class="next-step-btn">
+      다음 단계: {{ include.next_step }}
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
+      </svg>
+    </a>
+  </div>
+  {% endif %}
+</div>

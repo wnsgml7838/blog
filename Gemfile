@@ -11,6 +11,9 @@ group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
   gem "jekyll-sitemap"
   gem "jekyll-seo-tag"
+  gem "jekyll-paginate"
+  gem "jekyll-minifier"
+  gem "jekyll-gist"
 end
 
 # Windows와 JRuby에서는 tzinfo-data gem이 필요합니다
