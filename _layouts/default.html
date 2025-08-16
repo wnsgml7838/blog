@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
+    <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    
+    <!-- SEO -->
+    {% seo %}
+    
+    <!-- Feed -->
+    {% feed_meta %}
+</head>
+<body>
+    <header class="site-header">
+        <div class="wrapper">
+            <nav class="site-nav">
+                <a class="site-title" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+                <div class="nav-links">
+                    <a href="{{ '/' | relative_url }}">홈</a>
+                    <a href="{{ '/about' | relative_url }}">소개</a>
+                    <a href="{{ '/posts' | relative_url }}">포스트</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <main class="page-content">
+        <div class="wrapper">
+            {{ content }}
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="wrapper">
+            <div class="footer-content">
+                <p>&copy; {{ site.time | date: '%Y' }} {{ site.author.name }}. All rights reserved.</p>
+                <div class="social-links">
+                    {% if site.author.github %}
+                        <a href="https://github.com/{{ site.author.github }}" target="_blank">GitHub</a>
+                    {% endif %}
+                    {% if site.social_links.twitter %}
+                        <a href="https://twitter.com/{{ site.social_links.twitter }}" target="_blank">Twitter</a>
+                    {% endif %}
+                    {% if site.social_links.linkedin %}
+                        <a href="https://linkedin.com/in/{{ site.social_links.linkedin }}" target="_blank">LinkedIn</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

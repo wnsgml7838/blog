@@ -1,0 +1,60 @@
+# Jekyll 블로그 설정
+title: "김준희의 개발 블로그"
+description: "개발과 기술에 대한 이야기를 나누는 공간입니다."
+baseurl: "/blog" # GitHub Pages에서 저장소 이름이 username.github.io가 아닌 경우 "/repository-name"
+url: "https://wnsgml7838.github.io" # GitHub Pages URL로 변경하세요
+
+# 작성자 정보
+author:
+  name: "김준희"
+  email: "wnsgml7838@naver.com"
+  github: "wnsgml7838"
+
+# 빌드 설정
+markdown: kramdown
+highlighter: rouge
+permalink: /:year/:month/:day/:title/
+
+# Jekyll 플러그인 (GitHub Pages 지원)
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# 페이지네이션
+paginate: 10
+paginate_path: "/page:num/"
+
+# 제외할 파일
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  - README.md
+
+# 기본 레이아웃
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
+      comments: true
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+
+# 테마 설정
+theme: minima
+
+# 소셜 미디어 링크
+social_links:
+  github: wnsgml7838
+  twitter: 
+  linkedin:
