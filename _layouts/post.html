@@ -3,89 +3,240 @@ layout: default
 ---
 
 <article class="post">
-    <header class="post-header">
-        <h1 class="post-title">{{ page.title }}</h1>
-        <div class="post-meta">
-            <time datetime="{{ page.date | date_to_xmlschema }}">
-                {{ page.date | date: "%Y년 %m월 %d일" }}
-            </time>
-            
-            <!-- 읽기 시간 -->
-            <span class="reading-time">
-                {% assign words = content | number_of_words %}
-                {% assign reading_time = words | divided_by: 200 %}
-                {% if reading_time < 1 %}1{% else %}{{ reading_time }}{% endif %}분 읽기
-            </span>
-            
-            <!-- 난이도 배지 -->
-            {% if page.difficulty %}
-                <span class="difficulty-badge difficulty-{{ page.difficulty | downcase }}">
-                    {{ page.difficulty }}
-                </span>
-            {% endif %}
-            
-            <!-- 카테고리 -->
-            {% if page.categories.size > 0 %}
-                <span class="post-categories">
-                    {% for category in page.categories %}
-                        <span class="category">{{ category }}</span>
-                    {% endfor %}
-                </span>
-            {% endif %}
-            
-            <!-- 태그 -->
-            {% if page.tags.size > 0 %}
-                <span class="post-tags">
-                    {% for tag in page.tags %}
-                        <span class="tag">#{{ tag }}</span>
-                    {% endfor %}
-                </span>
-            {% endif %}
-            
-            <!-- 필요한 사전 지식 -->
-            {% if page.prerequisites %}
-                <div class="post-prerequisites">
-                    <span class="prerequisites-label">필요한 사전 지식:</span>
-                    {% for prerequisite in page.prerequisites %}
-                        <span class="prerequisite-tag">{{ prerequisite }}</span>
-                    {% endfor %}
-                </div>
-            {% endif %}
-        </div>
+    <header style="text-align: center; margin-bottom: var(--spacing-xl); padding-bottom: var(--spacing-lg); border-bottom: 1px solid var(--color-border);">
+        <h1 class="text-h1" style="margin-bottom: var(--spacing-md);">{{ page.title }}</h1>
         
-        <!-- 기술 스택 (포스트별) -->
-        {% if page.tech_stack %}
-            <div class="post-tech-stack">
-                <h4>사용 기술</h4>
-                <div class="tech-tags">
-                    {% for tech in page.tech_stack %}
-                        <span class="tech-tag">{{ tech }}</span>
-                    {% endfor %}
+        <div style="display: flex; justify-content: center; align-items: center; gap: var(--spacing-sm); flex-wrap: wrap; margin-bottom: var(--spacing-md);">
+            <div class="avatar avatar-md">
+                {{ site.author.name | slice: 0 }}
+            </div>
+            <div style="display: flex; flex-direction: column; align-items: center; gap: 4px;">
+                <span class="text-small" style="font-weight: var(--font-weight-medium);">{{ page.author | default: site.author.name }}</span>
+                <div style="display: flex; align-items: center; gap: var(--spacing-xs); color: var(--color-text-muted); font-size: var(--font-size-xs);">
+                    <time datetime="{{ page.date | date_to_xmlschema }}">
+                        {{ page.date | date: "%Y년 %m월 %d일" }}
+                    </time>
+                    <span>•</span>
+                    <span>{{ content | number_of_words | divided_by: 200 | at_least: 1 }}분 읽기</span>
                 </div>
             </div>
-        {% endif %}
+        </div>
+
+        <!-- 카테고리 및 태그 -->
+        <div style="display: flex; justify-content: center; gap: var(--spacing-xs); flex-wrap: wrap;">
+            {% if page.categories.size > 0 %}
+                {% for category in page.categories %}
+                    <span class="tag tag-primary">{{ category }}</span>
+                {% endfor %}
+            {% endif %}
+            {% if page.tags.size > 0 %}
+                {% for tag in page.tags %}
+                    <span class="tag">{{ tag }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
     </header>
 
-    <div class="post-content">
+    <div class="post-content" style="max-width: 700px; margin: 0 auto;">
         {{ content }}
     </div>
-
-    {% if page.comments %}
-        <div class="post-comments">
-            <!-- 댓글 시스템을 여기에 추가할 수 있습니다 (예: Disqus, utterances 등) -->
-        </div>
-    {% endif %}
 </article>
 
-<nav class="post-navigation">
-    {% if page.previous.url %}
-        <a class="prev" href="{{ page.previous.url | relative_url }}">
-            ← {{ page.previous.title }}
-        </a>
-    {% endif %}
-    {% if page.next.url %}
-        <a class="next" href="{{ page.next.url | relative_url }}">
-            {{ page.next.title }} →
-        </a>
-    {% endif %}
+<!-- 포스트 네비게이션 -->
+<nav style="margin-top: var(--spacing-xxl); padding-top: var(--spacing-xl); border-top: 1px solid var(--color-border);">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--spacing-lg);">
+        {% if page.previous.url %}
+            <a href="{{ page.previous.url | relative_url }}" class="card card-clickable" style="text-decoration: none;">
+                <div style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-bottom: var(--spacing-xs);">
+                    ← 이전 포스트
+                </div>
+                <div class="text-small" style="font-weight: var(--font-weight-medium); color: var(--color-primary-text);">
+                    {{ page.previous.title }}
+                </div>
+            </a>
+        {% else %}
+            <div></div>
+        {% endif %}
+
+        {% if page.next.url %}
+            <a href="{{ page.next.url | relative_url }}" class="card card-clickable" style="text-decoration: none; text-align: right;">
+                <div style="font-size: var(--font-size-xs); color: var(--color-text-muted); margin-bottom: var(--spacing-xs);">
+                    다음 포스트 →
+                </div>
+                <div class="text-small" style="font-weight: var(--font-weight-medium); color: var(--color-primary-text);">
+                    {{ page.next.title }}
+                </div>
+            </a>
+        {% else %}
+            <div></div>
+        {% endif %}
+    </div>
 </nav>
+
+<!-- 관련 포스트 -->
+{% assign related_posts = site.related_posts | limit: 3 %}
+{% if related_posts.size > 0 %}
+<section style="margin-top: var(--spacing-xxl);">
+    <h3 class="text-h3" style="margin-bottom: var(--spacing-lg);">관련 포스트</h3>
+    <div class="grid grid-3">
+        {% for related_post in related_posts %}
+            <a href="{{ related_post.url | relative_url }}" class="article-card">
+                <div class="article-card-title">{{ related_post.title }}</div>
+                <div class="article-card-description">
+                    {{ related_post.excerpt | strip_html | truncatewords: 15 }}
+                </div>
+                <div class="article-card-meta">
+                    <span>{{ related_post.date | date: "%Y.%m.%d" }}</span>
+                    {% if related_post.tags.size > 0 %}
+                        <span>•</span>
+                        <span>{{ related_post.tags.first }}</span>
+                    {% endif %}
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</section>
+{% endif %}
+
+<style>
+/* 포스트 콘텐츠 스타일링 */
+.post-content {
+    line-height: var(--line-height-body);
+    color: var(--color-primary-text);
+}
+
+.post-content h1,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6 {
+    margin: var(--spacing-xl) 0 var(--spacing-md) 0;
+    color: var(--color-primary-text);
+    font-weight: var(--font-weight-semibold);
+}
+
+.post-content h1 {
+    font-size: var(--font-size-h1);
+    font-weight: var(--font-weight-bold);
+}
+
+.post-content h2 {
+    font-size: var(--font-size-h2);
+    border-bottom: 1px solid var(--color-border);
+    padding-bottom: var(--spacing-sm);
+}
+
+.post-content h3 {
+    font-size: var(--font-size-h3);
+}
+
+.post-content p {
+    margin-bottom: var(--spacing-md);
+    line-height: var(--line-height-body);
+}
+
+.post-content ul,
+.post-content ol {
+    margin: var(--spacing-md) 0;
+    padding-left: var(--spacing-lg);
+}
+
+.post-content li {
+    margin-bottom: var(--spacing-xs);
+}
+
+.post-content blockquote {
+    margin: var(--spacing-lg) 0;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--color-bg-light);
+    border-left: 4px solid var(--color-primary-accent);
+    border-radius: 0 var(--border-radius-md) var(--border-radius-md) 0;
+}
+
+.post-content blockquote p {
+    margin: 0;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+.post-content code {
+    background-color: var(--color-bg-gray);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: var(--font-family-code);
+    font-size: 0.9em;
+    color: var(--color-primary-accent);
+}
+
+.post-content pre {
+    background-color: var(--color-bg-gray);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    margin: var(--spacing-lg) 0;
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+}
+
+.post-content pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: var(--color-primary-text);
+}
+
+.post-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius-md);
+    margin: var(--spacing-lg) 0;
+}
+
+.post-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--spacing-lg) 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+}
+
+.post-content th,
+.post-content td {
+    padding: var(--spacing-sm) var(--spacing-md);
+    text-align: left;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.post-content th {
+    background-color: var(--color-bg-light);
+    font-weight: var(--font-weight-semibold);
+}
+
+.post-content a {
+    color: var(--color-primary-accent);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color var(--transition-fast);
+}
+
+.post-content a:hover {
+    border-bottom-color: var(--color-primary-accent);
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .post-content {
+        font-size: var(--font-size-small);
+    }
+    
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    nav div {
+        grid-template-columns: 1fr !important;
+        gap: var(--spacing-md) !important;
+    }
+}
+</style>

@@ -4,149 +4,151 @@ layout: default
 
 <div class="home">
     <!-- 히어로 섹션 -->
-    <section class="hero">
-        <div class="developer-badge">Developer</div>
-        <h1>{{ site.title }}</h1>
-        <p>{{ site.description }}</p>
-        <div class="dev-status">Currently coding & learning</div>
-        <div class="dev-motto">// "Code with purpose, design with passion" 💻</div>
+    <section style="text-align: center; margin-bottom: var(--spacing-xxl);">
+        <h1 class="text-hero" style="margin-bottom: var(--spacing-md); color: var(--color-primary-text);">
+            토스 테크 블로그
+        </h1>
+        <p class="text-body text-muted" style="max-width: 600px; margin: 0 auto var(--spacing-xl) auto;">
+            토스의 기술과 개발 문화를 공유합니다. 더 나은 금융 서비스를 만들기 위한 우리의 기술 여정을 소개합니다.
+        </p>
+        <div style="display: flex; gap: var(--spacing-sm); justify-content: center; flex-wrap: wrap;">
+            <a href="#latest-posts" class="btn btn-primary">최신 포스트 보기</a>
+            <a href="{{ '/about' | relative_url }}" class="btn btn-secondary">토스 테크 소개</a>
+        </div>
     </section>
-    
-    {{ content }}
+
+    <!-- 카테고리 필터 -->
+    <section style="margin-bottom: var(--spacing-xl);">
+        <div style="display: flex; gap: var(--spacing-xs); justify-content: center; flex-wrap: wrap;">
+            <span class="tag tag-primary">전체</span>
+            <span class="tag">개발</span>
+            <span class="tag">데이터/ML</span>
+            <span class="tag">디자인</span>
+            <span class="tag">프로덕트</span>
+        </div>
+    </section>
 
     <!-- 최신 포스트 섹션 -->
-    <section class="posts">
-        <h2>최신 포스트</h2>
+    <section id="latest-posts">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--spacing-lg);">
+            <h2 class="text-h2">최신 포스트</h2>
+            <a href="{{ '/posts' | relative_url }}" class="btn btn-ghost">전체 보기</a>
+        </div>
+
         {% if site.posts.size > 0 %}
-            <ul class="post-list">
+            <div class="grid grid-3">
                 {% for post in site.posts limit: 6 %}
-                    <li class="post-item">
-                        <article>
-                            <h3 class="post-title">
-                                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-                            </h3>
-                            <div class="post-meta">
-                                <time datetime="{{ post.date | date_to_xmlschema }}">
-                                    {{ post.date | date: "%Y년 %m월 %d일" }}
-                                </time>
-                                {% if post.categories.size > 0 %}
-                                    <span class="post-categories">
-                                        {% for category in post.categories %}
-                                            <span class="category">{{ category }}</span>
-                                        {% endfor %}
-                                    </span>
-                                {% endif %}
-                                {% if post.tags.size > 0 %}
-                                    <span class="post-tags">
-                                        {% for tag in post.tags limit: 3 %}
-                                            <span class="tag">#{{ tag }}</span>
-                                        {% endfor %}
-                                    </span>
-                                {% endif %}
-                            </div>
+                    <a href="{{ post.url | relative_url }}" class="article-card">
+                        <div class="article-card-title">{{ post.title }}</div>
+                        <div class="article-card-description">
                             {% if post.excerpt %}
-                                <div class="post-excerpt">
-                                    {{ post.excerpt | strip_html | truncatewords: 25 }}
-                                </div>
+                                {{ post.excerpt | strip_html | truncatewords: 20 }}
+                            {% else %}
+                                {{ post.content | strip_html | truncatewords: 20 }}
                             {% endif %}
-                        </article>
-                    </li>
-                {% endfor %}
-            </ul>
-            
-            {% if site.posts.size > 6 %}
-                <div style="text-align: center; margin-top: 2rem;">
-                    <a href="{{ '/posts' | relative_url }}" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--primary-color); text-decoration: none; font-weight: 500; padding: 0.75rem 1.5rem; border: 1px solid var(--primary-color); border-radius: 6px; transition: all 150ms ease;">
-                        모든 포스트 보기
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                        </svg>
+                        </div>
+                        <div class="article-card-meta">
+                            <span>{{ post.date | date: "%Y.%m.%d" }}</span>
+                            <span>•</span>
+                            <span>{{ post.author | default: site.author.name }}</span>
+                            <span>•</span>
+                            <span>{{ post.content | number_of_words | divided_by: 200 | at_least: 1 }}분 읽기</span>
+                        </div>
+                        {% if post.tags.size > 0 %}
+                            <div class="article-card-tags">
+                                {% for tag in post.tags limit: 3 %}
+                                    {% if tag == 'JavaScript' or tag == 'React' or tag == 'Frontend' %}
+                                        <span class="tag tag-primary">{{ tag }}</span>
+                                    {% elsif tag == 'Backend' or tag == 'API' or tag == 'Database' %}
+                                        <span class="tag tag-success">{{ tag }}</span>
+                                    {% elsif tag == 'Design' or tag == 'UI' or tag == 'UX' %}
+                                        <span class="tag tag-warning">{{ tag }}</span>
+                                    {% else %}
+                                        <span class="tag">{{ tag }}</span>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endif %}
                     </a>
-                </div>
-            {% endif %}
+                {% endfor %}
+            </div>
         {% else %}
-            <p>아직 포스트가 없습니다. 첫 번째 포스트를 작성해보세요!</p>
+            <div class="card" style="text-align: center; padding: var(--spacing-xl);">
+                <h3 class="text-h3" style="margin-bottom: var(--spacing-md);">아직 포스트가 없습니다</h3>
+                <p class="text-muted">곧 흥미로운 기술 이야기들을 공유할 예정입니다!</p>
+            </div>
         {% endif %}
     </section>
 
-    <!-- 프로젝트 섹션 -->
-    <section class="projects">
-        <h2>주요 프로젝트</h2>
-        <div class="project-grid">
-            <!-- 프로젝트 카드 1 -->
-            <article class="project-card">
-                <h3>기술 블로그</h3>
-                <p>Jekyll과 GitHub Pages를 활용한 개인 기술 블로그입니다. 모던한 UI/UX와 다크 모드를 지원합니다.</p>
-                <div class="project-links">
-                    <a href="https://github.com/{{ site.author.github }}/blog" target="_blank" rel="noopener noreferrer">
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                        GitHub
-                    </a>
-                    <a href="{{ '/' | relative_url }}">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                        </svg>
-                        Live Demo
-                    </a>
+    <!-- 추가 섹션들 -->
+    <section style="margin-top: var(--spacing-xxl);">
+        <div class="grid grid-2">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🚀 토스의 기술 스택</div>
+                    <div class="card-description">토스에서 사용하는 주요 기술들을 소개합니다.</div>
                 </div>
-                <div class="tech-stack">
-                    <span class="tech-tag">Jekyll</span>
-                    <span class="tech-tag">HTML/CSS</span>
-                    <span class="tech-tag">JavaScript</span>
-                    <span class="tech-tag">GitHub Pages</span>
+                <div class="card-content">
+                    <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
+                        <span class="tag tag-primary">React</span>
+                        <span class="tag tag-primary">TypeScript</span>
+                        <span class="tag tag-success">Spring Boot</span>
+                        <span class="tag tag-success">Kotlin</span>
+                        <span class="tag">AWS</span>
+                        <span class="tag">Kubernetes</span>
+                    </div>
                 </div>
-            </article>
+                <div class="card-footer">
+                    <a href="{{ '/about' | relative_url }}" class="btn btn-ghost btn-small">더 알아보기</a>
+                </div>
+            </div>
 
-            <!-- 프로젝트 카드 2 -->
-            <article class="project-card">
-                <h3>포트폴리오 웹사이트</h3>
-                <p>개인 포트폴리오와 프로젝트를 소개하는 반응형 웹사이트입니다. 모바일 최적화와 SEO를 고려했습니다.</p>
-                <div class="project-links">
-                    <a href="https://github.com/{{ site.author.github }}/portfolio" target="_blank" rel="noopener noreferrer" class="link link-external">
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                        GitHub
-                    </a>
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">🎨 디자인 시스템</div>
+                    <div class="card-description">토스 디자인 시스템 컴포넌트를 확인해보세요.</div>
                 </div>
-                <div class="tech-stack">
-                    <span class="badge badge-outline">React</span>
-                    <span class="badge badge-outline">TypeScript</span>
-                    <span class="badge badge-outline">Tailwind CSS</span>
-                    <span class="badge badge-outline">Vercel</span>
+                <div class="card-content">
+                    <p class="text-small text-muted">
+                        일관된 사용자 경험을 위한 토스의 디자인 시스템과 컴포넌트들을 소개합니다.
+                    </p>
                 </div>
-            </article>
-
-            <!-- 프로젝트 카드 3 -->
-            <article class="project-card">
-                <h3>학습 관리 시스템</h3>
-                <p>학생들의 학습 진도를 관리하고 과제를 제출할 수 있는 웹 애플리케이션입니다. 실시간 알림과 대시보드를 제공합니다.</p>
-                <div class="project-links">
-                    <a href="https://github.com/{{ site.author.github }}/lms" target="_blank" rel="noopener noreferrer" class="link link-external">
-                        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-                        </svg>
-                        GitHub
-                    </a>
+                <div class="card-footer">
+                    <a href="{{ '/components' | relative_url }}" class="btn btn-ghost btn-small">컴포넌트 보기</a>
                 </div>
-                <div class="tech-stack">
-                    <span class="badge badge-outline">Node.js</span>
-                    <span class="badge badge-outline">Express</span>
-                    <span class="badge badge-outline">MongoDB</span>
-                    <span class="badge badge-outline">Socket.io</span>
-                </div>
-            </article>
-        </div>
-        
-        <div style="text-align: center; margin-top: 3rem;">
-            <a href="{{ '/projects' | relative_url }}" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--primary-color); text-decoration: none; font-weight: 500; padding: 0.75rem 1.5rem; border: 1px solid var(--primary-color); border-radius: 6px; transition: all 150ms ease;">
-                모든 프로젝트 보기
-                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </a>
+            </div>
         </div>
     </section>
 </div>
+
+<style>
+/* 부드러운 스크롤 */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 호버 효과 개선 */
+.tag:hover {
+    transform: translateY(-1px);
+    transition: transform var(--transition-fast);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+/* 반응형 개선 */
+@media (max-width: 768px) {
+    .text-hero {
+        font-size: 36px;
+    }
+    
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+    
+    .grid-2 {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
