@@ -74,7 +74,7 @@ layout: default
 </nav>
 
 <!-- 관련 포스트 -->
-{% assign related_posts = site.related_posts | limit: 3 %}
+{% assign related_posts = site.related_posts | slice: 0, 3 %}
 {% if related_posts.size > 0 %}
 <section style="margin-top: var(--spacing-xxl);">
     <h3 class="text-h3" style="margin-bottom: var(--spacing-lg);">관련 포스트</h3>
