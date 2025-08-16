@@ -11,11 +11,17 @@ layout: default
             </time>
             
             <!-- 읽기 시간 -->
-            {% include reading-time.html %}
+            <span class="reading-time">
+                {% assign words = content | number_of_words %}
+                {% assign reading_time = words | divided_by: 200 %}
+                {% if reading_time < 1 %}1{% else %}{{ reading_time }}{% endif %}분 읽기
+            </span>
             
             <!-- 난이도 배지 -->
             {% if page.difficulty %}
-                {% include difficulty-badge.html difficulty=page.difficulty %}
+                <span class="difficulty-badge difficulty-{{ page.difficulty | downcase }}">
+                    {{ page.difficulty }}
+                </span>
             {% endif %}
             
             <!-- 카테고리 -->
