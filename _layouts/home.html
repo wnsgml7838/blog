@@ -6,14 +6,14 @@ layout: default
     <!-- 히어로 섹션 -->
     <section style="text-align: center; margin-bottom: var(--spacing-xxl);">
         <h1 class="text-hero" style="margin-bottom: var(--spacing-md); color: var(--color-primary-text);">
-            토스 테크 블로그
+            김준희의 개발 블로그
         </h1>
         <p class="text-body text-muted" style="max-width: 600px; margin: 0 auto var(--spacing-xl) auto;">
-            토스의 기술과 개발 문화를 공유합니다. 더 나은 금융 서비스를 만들기 위한 우리의 기술 여정을 소개합니다.
+            안녕하세요! 개발자 김준희입니다. 개발하면서 배운 것들과 일상의 생각들을 기록하는 공간입니다.
         </p>
         <div style="display: flex; gap: var(--spacing-sm); justify-content: center; flex-wrap: wrap;">
             <a href="#latest-posts" class="btn btn-primary">최신 포스트 보기</a>
-            <a href="{{ '/about' | relative_url }}" class="btn btn-secondary">토스 테크 소개</a>
+            <a href="{{ '/about' | relative_url }}" class="btn btn-secondary">About Me</a>
         </div>
     </section>
 
@@ -22,9 +22,9 @@ layout: default
         <div style="display: flex; gap: var(--spacing-xs); justify-content: center; flex-wrap: wrap;">
             <span class="tag tag-primary">전체</span>
             <span class="tag">개발</span>
-            <span class="tag">데이터/ML</span>
-            <span class="tag">디자인</span>
-            <span class="tag">프로덕트</span>
+            <span class="tag">일상</span>
+            <span class="tag">학습</span>
+            <span class="tag">프로젝트</span>
         </div>
     </section>
 
@@ -87,17 +87,17 @@ layout: default
         <div class="grid grid-2">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">🚀 토스의 기술 스택</div>
-                    <div class="card-description">토스에서 사용하는 주요 기술들을 소개합니다.</div>
+                    <div class="card-title">💻 주요 기술 스택</div>
+                    <div class="card-description">제가 주로 사용하는 기술들을 소개합니다.</div>
                 </div>
                 <div class="card-content">
                     <div style="display: flex; gap: var(--spacing-xs); flex-wrap: wrap;">
+                        <span class="tag tag-primary">JavaScript</span>
                         <span class="tag tag-primary">React</span>
-                        <span class="tag tag-primary">TypeScript</span>
-                        <span class="tag tag-success">Spring Boot</span>
-                        <span class="tag tag-success">Kotlin</span>
-                        <span class="tag">AWS</span>
-                        <span class="tag">Kubernetes</span>
+                        <span class="tag tag-success">Node.js</span>
+                        <span class="tag tag-success">Python</span>
+                        <span class="tag">Git</span>
+                        <span class="tag">Docker</span>
                     </div>
                 </div>
                 <div class="card-footer">
@@ -107,16 +107,16 @@ layout: default
 
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">🎨 디자인 시스템</div>
-                    <div class="card-description">토스 디자인 시스템 컴포넌트를 확인해보세요.</div>
+                    <div class="card-title">📚 최근 관심사</div>
+                    <div class="card-description">요즘 공부하고 있는 분야들입니다.</div>
                 </div>
                 <div class="card-content">
                     <p class="text-small text-muted">
-                        일관된 사용자 경험을 위한 토스의 디자인 시스템과 컴포넌트들을 소개합니다.
+                        웹 개발, 클린 코드, 새로운 프레임워크와 라이브러리들을 탐구하고 있습니다.
                     </p>
                 </div>
                 <div class="card-footer">
-                    <a href="{{ '/components' | relative_url }}" class="btn btn-ghost btn-small">컴포넌트 보기</a>
+                    <a href="{{ '/posts' | relative_url }}" class="btn btn-ghost btn-small">포스트 보기</a>
                 </div>
             </div>
         </div>

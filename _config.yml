@@ -1,6 +1,6 @@
 # Jekyll 블로그 설정
 title: "김준희의 개발 블로그"
-description: "개발과 기술에 대한 이야기를 나누는 공간입니다. 최신 웹 기술, 프로그래밍 팁, 그리고 개발 경험을 공유합니다."
+description: "개발하면서 배운 것들과 일상의 생각들을 기록하는 개인 블로그입니다. 웹 개발, 새로운 기술 탐구, 그리고 개발자로서의 성장 이야기를 공유합니다."
 baseurl: "/blog" # GitHub Pages에서 저장소 이름이 username.github.io가 아닌 경우 "/repository-name"
 url: "https://wnsgml7838.github.io" # GitHub Pages URL로 변경하세요
 
@@ -39,9 +39,9 @@ naver_site_verification: "your-naver-verification-code"
 
 # SEO 메타 태그 설정
 seo_meta:
-  title: "김준희의 개발 블로그 - 최신 웹 기술과 프로그래밍 이야기"
-  description: "개발과 기술에 대한 깊이 있는 이야기를 나누는 공간입니다. React, Node.js, Python 등 최신 웹 기술과 프로그래밍 팁, 개발 경험을 공유합니다."
-  keywords: "웹개발, 프로그래밍, React, JavaScript, Node.js, Python, 기술블로그, 개발자, 튜토리얼"
+  title: "김준희의 개발 블로그 - 개발자의 성장 이야기"
+  description: "개발하면서 배운 것들과 일상의 생각들을 기록하는 개인 블로그입니다. JavaScript, React, Python 등의 기술과 개발자로서의 경험을 공유합니다."
+  keywords: "개발블로그, 프로그래밍, JavaScript, React, Python, 개발자, 학습기록, 개인블로그"
   image: "/assets/images/og-image.jpg"
   
 # JSON-LD 구조화 데이터
