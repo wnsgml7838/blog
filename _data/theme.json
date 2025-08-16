@@ -11,7 +11,7 @@
     "primary": {
       "background": "#FFFFFF",
       "text": "#191919",
-      "accent": "#3182F6"
+      "accent": "#7C3AED"
     },
     "secondary": {
       "backgroundLight": "#F9FAFB",
@@ -20,9 +20,9 @@
       "border": "#E5E8EB"
     },
     "interactive": {
-      "hover": "#1B64DA",
-      "focus": "#3182F6",
-      "active": "#1E40AF"
+      "hover": "#6D28D9",
+      "focus": "#7C3AED",
+      "active": "#5B21B6"
     }
   },
   "typography": {
@@ -111,14 +111,14 @@
     },
     "button": {
       "primary": {
-        "background": "#3182F6",
+        "background": "#7C3AED",
         "color": "#FFFFFF",
         "padding": "12px 24px",
         "borderRadius": "8px",
         "fontSize": "15px",
         "fontWeight": "600",
         "hover": {
-          "background": "#1B64DA"
+          "background": "#6D28D9"
         }
       },
       "secondary": {

@@ -3,7 +3,7 @@
   /* 브랜드 컬러 */
   --color-primary-bg: #FFFFFF;
   --color-primary-text: #191919;
-  --color-primary-accent: #3182F6;
+  --color-primary-accent: #7C3AED;
   
   /* 세컨더리 컬러 */
   --color-bg-light: #F9FAFB;
@@ -12,8 +12,8 @@
   --color-border: #E5E8EB;
   
   /* 인터랙티브 컬러 */
-  --color-hover: #1B64DA;
-  --color-focus: #3182F6;
+  --color-hover: #6D28D9;
+  --color-focus: #7C3AED;
   --color-active: #1E40AF;
   
   /* 타이포그래피 */
