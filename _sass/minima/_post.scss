@@ -17,8 +17,16 @@
   --post-max-width: var(--container-max-width, 1200px);
   --post-content-max-width: var(--content-max-width, 750px);
   --post-wide-content-max-width: var(--wide-content-width, 900px);
-  --post-toc-width: 220px;
   --post-gap: var(--spacing-xl, 3rem);
+}
+
+// =============================================
+// 포스트 레이아웃 래퍼 (목차를 위한 전체 래퍼)
+// =============================================
+
+.post-layout-wrapper {
+  position: relative;
+  width: 100%;
 }
 
 // =============================================
@@ -26,224 +34,32 @@
 // =============================================
 
 .post-container {
-  max-width: var(--post-max-width);
+  max-width: 100%;
   margin: 0 auto;
-  padding: 0 var(--site-padding, 2rem);
+  padding: 0;
   position: relative;
-  
-  @media (min-width: 1201px) {
-    display: grid;
-    grid-template-columns: 1fr var(--post-toc-width);
-    gap: var(--post-gap);
-  }
-  
-  @media (max-width: var(--breakpoint-laptop, 1200px)) {
-    padding: 0 var(--site-padding-tablet, 1.5rem);
-  }
-  
-  @media (max-width: var(--breakpoint-tablet, 768px)) {
-    padding: 0 var(--site-padding-mobile, 1rem);
-  }
 }
 
-// =============================================
-// Table of Contents (TOC)
-// =============================================
-
-.post-toc {
-  position: sticky;
-  top: calc(64px + var(--spacing-lg)); /* Nav height + spacing */
-  height: fit-content;
-  max-height: calc(100vh - 64px - var(--spacing-2xl));
-  overflow-y: auto;
-  overflow-x: hidden;
-  background-color: rgba(255, 255, 255, 0.98);
-  border-radius: var(--radius-lg);
-  padding: var(--spacing-md);
-  border: 1px solid rgba(124, 58, 237, 0.1);
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(124, 58, 237, 0.05);
-  transition: opacity 0.3s ease, transform 0.3s ease;
-  
-  // 데스크톱에서만 표시
-  @media (max-width: 1200px) {
-    display: none;
-  }
-  
-  // 스크롤바 스타일링
-  &::-webkit-scrollbar {
-    width: 4px;
-  }
-  
-  &::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  
-  &::-webkit-scrollbar-thumb {
-    background: rgba(124, 58, 237, 0.2);
-    border-radius: 2px;
-    
-    &:hover {
-      background: rgba(124, 58, 237, 0.3);
-    }
-  }
-  
-  &__title {
-    font-size: var(--font-size-sm);
-    font-weight: 600;
-    color: var(--color-primary);
-    margin-bottom: var(--spacing-sm);
-    padding-bottom: var(--spacing-xs);
-    border-bottom: 2px solid var(--color-primary-light);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  
-  &__list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    
-    li {
-      margin-bottom: var(--spacing-xs);
-    }
-    
-    a {
-      display: block;
-      color: var(--color-text-secondary);
-      text-decoration: none;
-      font-size: var(--font-size-sm);
-      line-height: var(--line-height-relaxed);
-      padding: var(--spacing-xs) var(--spacing-sm);
-      border-radius: var(--radius-sm);
-      transition: all 0.2s ease;
-      position: relative;
-      
-      &:hover {
-        background-color: var(--color-primary-light);
-        color: var(--color-primary);
-        transform: translateX(2px);
-      }
-      
-      &.active {
-        background-color: var(--color-primary-light);
-        color: var(--color-primary);
-        font-weight: 500;
-        
-        &::before {
-          content: '';
-          position: absolute;
-          left: 0;
-          top: 50%;
-          transform: translateY(-50%);
-          width: 3px;
-          height: 60%;
-          background-color: var(--color-primary);
-          border-radius: 0 2px 2px 0;
-        }
-      }
-    }
-    
-    // 중첩된 목차
-    ul {
-      margin-left: var(--spacing-md);
-      margin-top: var(--spacing-xs);
-      
-      a {
-        font-size: var(--font-size-xs);
-        opacity: 0.9;
-        
-        &:hover {
-          opacity: 1;
-        }
-      }
-    }
-  }
-}
-
-// 모바일 TOC (접을 수 있는 형태)
-.post-toc-mobile {
-  display: none;
-  margin-bottom: var(--spacing-lg);
-  z-index: 200;
-  position: relative;
-  
-  @media (max-width: 1200px) {
-    display: block;
-  }
-  
-  &__toggle {
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: var(--font-size-md);
-    font-weight: 500;
-    color: var(--color-text-primary);
-    cursor: pointer;
-    transition: all 0.2s ease;
-    width: 100%;
-    text-align: left;
-    position: relative;
-    z-index: 200;
-    
-    &:hover {
-      background-color: var(--color-bg-light);
-    }
-    
-    &::after {
-      content: '▼';
-      margin-left: auto;
-      transition: transform 0.2s ease;
-    }
-    
-    &.expanded::after {
-      transform: rotate(180deg);
-    }
-  }
-  
-  &__content {
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-    background-color: var(--color-bg-secondary);
-    border: 1px solid var(--color-border);
-    border-top: none;
-    border-radius: 0 0 var(--radius-md) var(--radius-md);
-    position: relative;
-    z-index: 200;
-    
-    &.expanded {
-      max-height: 300px;
-    }
-  }
-}
 
 // =============================================
 // 포스트 콘텐츠 영역
 // =============================================
 
-.post-content-wrapper {
-  min-width: 0; // CSS Grid 오버플로우 방지
-}
+// 제거: post-content-wrapper는 더 이상 사용하지 않음
 
 .post-content {
-  max-width: var(--post-content-max-width);
+  max-width: 100%;
   line-height: var(--line-height-loose);
   color: var(--color-text-primary);
   font-size: var(--font-size-lg);
   
   @media (max-width: var(--breakpoint-tablet, 768px)) {
-    max-width: 100%;
     font-size: var(--font-size-md);
   }
   
   // 제목 스타일
   h1, h2, h3, h4, h5, h6 {
-    max-width: var(--post-content-max-width);
+    max-width: 100%;
     margin: var(--spacing-2xl) 0 var(--spacing-md) 0;
     color: var(--color-text-primary);
     font-weight: 600;
@@ -293,14 +109,14 @@
   
   // 문단 스타일
   p {
-    max-width: var(--post-content-max-width);
+    max-width: 100%;
     margin-bottom: var(--spacing-lg);
     line-height: var(--line-height-loose);
   }
   
   // 목록 스타일
   ul, ol {
-    max-width: var(--post-content-max-width);
+    max-width: 100%;
     margin: var(--spacing-lg) 0;
     padding-left: var(--spacing-lg);
     
@@ -321,7 +137,7 @@
   
   // 인용문 스타일
   blockquote {
-    max-width: var(--post-content-max-width);
+    max-width: 100%;
     margin: var(--spacing-xl) 0;
     padding: var(--spacing-lg);
     background-color: var(--color-bg-secondary);
@@ -375,7 +191,7 @@
   
   // 구분선
   hr {
-    max-width: var(--post-content-max-width);
+    max-width: 100%;
     margin: var(--spacing-2xl) 0;
     border: none;
     height: 1px;
@@ -391,7 +207,7 @@
   // 코드블럭 - 더 넓게 (강화된 너비 제어)
   pre,
   .highlight {
-    max-width: var(--post-wide-content-max-width) !important;
+    max-width: 100% !important;
     width: 100% !important;
     margin: var(--spacing-xl) 0;
     position: relative;
@@ -399,8 +215,8 @@
     
     // 콘텐츠를 자연스럽게 확장
     @media (min-width: calc(var(--content-max-width, 800px) + 200px)) {
-      margin-left: calc((var(--post-content-max-width) - var(--post-wide-content-max-width)) / 2);
-      margin-right: calc((var(--post-content-max-width) - var(--post-wide-content-max-width)) / 2);
+      margin-left: 0;
+      margin-right: 0;
     }
     
     @media (max-width: var(--breakpoint-tablet, 768px)) {
@@ -495,7 +311,7 @@
   .tip,
   .warning,
   .info {
-    max-width: var(--post-content-max-width);
+    max-width: 100%;
     margin: var(--spacing-xl) 0;
     padding: var(--spacing-lg);
     border-radius: var(--radius-lg);
@@ -562,7 +378,7 @@
   margin-bottom: var(--spacing-2xl);
   padding-bottom: var(--spacing-xl);
   border-bottom: 1px solid var(--color-border);
-  max-width: var(--post-content-max-width);
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
   
@@ -605,6 +421,7 @@
 // =============================================
 
 .post-navigation {
+  max-width: 100%;
   margin-top: var(--spacing-2xl);
   padding-top: var(--spacing-xl);
   border-top: 1px solid var(--color-border);
