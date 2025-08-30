@@ -8,7 +8,7 @@
 
 1. **기존 컴포넌트 검토 (MANDATORY - 절대 생략 불가)**
    ```
-   1단계: /assets/css/components.css 파일 완전 검토
+   1단계: /_sass/minima/_components.scss 파일 완전 검토
    2단계: /components.md 페이지에서 시각적 확인
    3단계: 해당 컴포넌트 클래스와 구조 파악
    4단계: 기존 컴포넌트로 구현 가능 여부 판단

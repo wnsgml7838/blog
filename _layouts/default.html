@@ -6,11 +6,8 @@
     <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
     <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
     
-    <!-- 토스 디자인 시스템 CSS (SCSS 컴파일됨) -->
+    <!-- 메인 스타일시트 -->
     <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
-    <!-- 기존 CSS도 호환성을 위해 유지 -->
-    <link rel="stylesheet" href="{{ '/assets/css/toss-design-system.css' | relative_url }}">
-    <link rel="stylesheet" href="{{ '/assets/css/components.css' | relative_url }}">
     
     <!-- 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
