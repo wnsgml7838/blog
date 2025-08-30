@@ -1,0 +1,324 @@
+/**
+ * Code Blocks
+ * 
+ * Clean, simple implementation for Jekyll Rouge syntax highlighter
+ * Integrated with purple theme design system
+ * No nested .highlight elements - works directly with Rouge's output
+ */
+
+// =============================================
+// Code Block Variables
+// =============================================
+
+:root {
+  // Code block specific colors
+  --code-bg: #1a1b26;
+  --code-bg-light: #24283b;
+  --code-text: #c0caf5;
+  --code-comment: #565f89;
+  --code-keyword: #bb9af7;
+  --code-string: #9ece6a;
+  --code-number: #ff9e64;
+  --code-function: #7aa2f7;
+  --code-variable: #f7768e;
+  --code-operator: #89ddff;
+  
+  // Code block UI colors
+  --code-border: rgba(124, 58, 237, 0.2);
+  --code-header-bg: rgba(124, 58, 237, 0.1);
+  --code-header-text: var(--color-text-primary);
+  --code-copy-btn-bg: rgba(255, 255, 255, 0.1);
+  --code-copy-btn-hover: rgba(124, 58, 237, 0.3);
+  --code-copy-success: #10b981;
+  
+  // Widths
+  --code-max-width: 900px;
+}
+
+// =============================================
+// Base Code Block Container
+// =============================================
+
+.code-block-wrapper {
+  position: relative;
+  margin: var(--spacing-lg) auto;
+  max-width: var(--code-max-width);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--code-border);
+  background: var(--code-bg);
+  z-index: var(--z-index-base);
+  
+  @media (max-width: 768px) {
+    margin: var(--spacing-md) -var(--spacing-sm);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+}
+
+// =============================================
+// Code Block Header
+// =============================================
+
+.code-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--code-header-bg);
+  border-bottom: 1px solid var(--code-border);
+  min-height: 48px;
+}
+
+.code-language {
+  font-family: var(--font-family-code);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  color: var(--code-header-text);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.code-copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--code-copy-btn-bg);
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--code-text);
+  font-family: var(--font-family);
+  font-size: var(--font-size-xs);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  
+  &:hover {
+    background: var(--code-copy-btn-hover);
+    border-color: rgba(124, 58, 237, 0.4);
+    transform: translateY(-1px);
+  }
+  
+  &:active {
+    transform: translateY(0);
+  }
+  
+  &.copied {
+    background: rgba(16, 185, 129, 0.2);
+    border-color: var(--code-copy-success);
+    color: var(--code-copy-success);
+  }
+  
+  &:focus {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}
+
+.copy-icon {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2;
+  fill: none;
+}
+
+// =============================================
+// Rouge Syntax Highlighter Integration
+// =============================================
+
+// Target Rouge's .highlight class directly (no nesting)
+.highlight {
+  background: var(--code-bg) !important;
+  border-radius: 0;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  z-index: var(--z-index-base);
+  position: relative;
+  
+  // Code content
+  pre {
+    background: transparent !important;
+    border: none;
+    border-radius: 0;
+    margin: 0;
+    padding: var(--spacing-md);
+    overflow-x: auto;
+    font-family: var(--font-family-code);
+    font-size: var(--font-size-sm);
+    line-height: 1.6;
+    color: var(--code-text);
+    
+    @media (max-width: 768px) {
+      padding: var(--spacing-sm);
+      font-size: 13px;
+    }
+    
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 4px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgba(124, 58, 237, 0.4);
+      border-radius: 4px;
+      
+      &:hover {
+        background: rgba(124, 58, 237, 0.6);
+      }
+    }
+  }
+  
+  // Code element
+  code {
+    background: transparent !important;
+    border: none;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    color: inherit;
+    white-space: pre;
+    word-wrap: normal;
+  }
+}
+
+// =============================================
+// Rouge Syntax Highlighting Colors
+// =============================================
+
+.highlight {
+  // Generic tokens
+  .err { color: var(--code-variable); } // Error
+  .x { color: var(--code-text); } // Other
+  
+  // Keyword groups
+  .k, .kc, .kd, .kn, .kp, .kr, .kt { color: var(--code-keyword); } // Keywords
+  
+  // Names
+  .na { color: var(--code-function); } // Name.Attribute
+  .nb { color: var(--code-function); } // Name.Builtin
+  .nc { color: var(--code-keyword); } // Name.Class
+  .no { color: var(--code-variable); } // Name.Constant
+  .nd { color: var(--code-keyword); } // Name.Decorator
+  .ni { color: var(--code-variable); } // Name.Entity
+  .ne { color: var(--code-variable); } // Name.Exception
+  .nf { color: var(--code-function); } // Name.Function
+  .nl { color: var(--code-text); } // Name.Label
+  .nn { color: var(--code-text); } // Name.Namespace
+  .nx { color: var(--code-text); } // Name.Other
+  .py { color: var(--code-text); } // Name.Property
+  .nt { color: var(--code-keyword); } // Name.Tag
+  .nv { color: var(--code-variable); } // Name.Variable
+  .ow { color: var(--code-operator); } // Operator.Word
+  .w { color: var(--code-text); } // Text.Whitespace
+  
+  // Literals
+  .l { color: var(--code-number); } // Literal
+  .ld { color: var(--code-string); } // Literal.Date
+  .m, .mb, .mf, .mh, .mi, .il, .mo, .mx { color: var(--code-number); } // Numbers
+  
+  // Strings
+  .s, .sb, .sc, .sd, .s2, .se, .sh, .si, .sx, .sr, .s1, .ss { color: var(--code-string); } // Strings
+  
+  // Comments
+  .c, .ch, .cm, .c1, .cs { color: var(--code-comment); font-style: italic; } // Comments
+  
+  // Generic
+  .gd { color: var(--code-variable); } // Generic.Deleted
+  .ge { font-style: italic; } // Generic.Emph
+  .gr { color: var(--code-variable); } // Generic.Error
+  .gh { color: var(--code-text); font-weight: bold; } // Generic.Heading
+  .gi { color: var(--code-string); } // Generic.Inserted
+  .go { color: var(--code-comment); } // Generic.Output
+  .gp { color: var(--code-comment); } // Generic.Prompt
+  .gs { font-weight: bold; } // Generic.Strong
+  .gu { color: var(--code-operator); font-weight: bold; } // Generic.Subheading
+  .gt { color: var(--code-variable); } // Generic.Traceback
+  
+  // Operators
+  .o { color: var(--code-operator); } // Operator
+  .p { color: var(--code-text); } // Punctuation
+}
+
+// =============================================
+// Inline Code
+// =============================================
+
+// Inline code (not in code blocks)
+code:not(.highlight code) {
+  background: rgba(124, 58, 237, 0.1);
+  color: var(--color-primary);
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-family-code);
+  font-size: 0.9em;
+  font-weight: 500;
+  border: 1px solid rgba(124, 58, 237, 0.2);
+}
+
+// =============================================
+// Line Numbers (if needed later)
+// =============================================
+
+.highlight .lineno {
+  color: var(--code-comment);
+  padding-right: var(--spacing-sm);
+  user-select: none;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  margin-right: var(--spacing-sm);
+}
+
+// =============================================
+// Language-specific adjustments
+// =============================================
+
+// JavaScript/TypeScript
+.highlight .language-javascript,
+.highlight .language-js,
+.highlight .language-typescript,
+.highlight .language-ts {
+  .nx { color: var(--code-text); } // Keep variables as normal text
+  .kd { color: var(--code-keyword); } // const, let, var
+}
+
+// CSS/SCSS
+.highlight .language-css,
+.highlight .language-scss {
+  .nt { color: var(--code-keyword); } // HTML tags
+  .nc { color: var(--code-function); } // CSS classes
+  .nf { color: var(--code-function); } // CSS functions
+}
+
+// HTML
+.highlight .language-html {
+  .nt { color: var(--code-keyword); } // HTML tags
+  .na { color: var(--code-function); } // HTML attributes
+}
+
+// =============================================
+// Accessibility
+// =============================================
+
+@media (prefers-reduced-motion: reduce) {
+  .code-copy-btn {
+    transition: none;
+  }
+}
+
+// High contrast mode
+@media (prefers-contrast: high) {
+  :root {
+    --code-bg: #000000;
+    --code-text: #ffffff;
+    --code-border: #ffffff;
+  }
+}

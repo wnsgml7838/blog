@@ -1,19 +1,16 @@
 source "https://rubygems.org"
 
-# Jekyll
-gem "jekyll", "~> 4.3.0"
-
-# GitHub Pages 호환
-gem "github-pages", group: :jekyll_plugins
+# Jekyll 3.9 for better Ruby 2.6 compatibility
+gem "jekyll", "~> 3.9.0"
+gem "minima", "~> 2.5"
 
 # Jekyll 플러그인
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
-  gem "jekyll-sitemap"
   gem "jekyll-seo-tag"
   gem "jekyll-paginate"
-  gem "jekyll-minifier"
   gem "jekyll-gist"
+  gem "kramdown-parser-gfm"
 end
 
 # Windows와 JRuby에서는 tzinfo-data gem이 필요합니다

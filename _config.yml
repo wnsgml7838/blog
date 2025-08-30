@@ -18,11 +18,9 @@ permalink: /:year/:month/:day/:title/
 # Jekyll 플러그인 (GitHub Pages 지원)
 plugins:
   - jekyll-feed
-  - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-gist
   - jekyll-paginate
-  - jekyll-minifier
 
 # SEO 최적화
 timezone: Asia/Seoul
@@ -92,7 +90,7 @@ kramdown:
     span:
       line_numbers: false
     block:
-      line_numbers: true
+      line_numbers: false
       start_line: 1
 
 # 페이지네이션

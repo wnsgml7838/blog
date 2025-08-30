@@ -6,14 +6,16 @@
     <title>{% if page.title %}{{ page.title }} - {% endif %}{{ site.title }}</title>
     <meta name="description" content="{% if page.excerpt %}{{ page.excerpt | strip_html | strip_newlines | truncate: 160 }}{% else %}{{ site.description }}{% endif %}">
     
-    <!-- 토스 디자인 시스템 CSS -->
+    <!-- 토스 디자인 시스템 CSS (SCSS 컴파일됨) -->
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    <!-- 기존 CSS도 호환성을 위해 유지 -->
     <link rel="stylesheet" href="{{ '/assets/css/toss-design-system.css' | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/components.css' | relative_url }}">
     
     <!-- 폰트 -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <!-- SEO -->
     {% seo %}
@@ -36,43 +38,57 @@
         </div>
     </nav>
 
-    <main style="min-height: calc(100vh - 200px); padding-top: var(--spacing-xl);">
-        <div class="container">
-            {{ content }}
-        </div>
+    <main>
+        {% if page.layout == 'post' %}
+            <div class="post-layout">
+                {{ content }}
+            </div>
+        {% elsif page.layout == 'home' %}
+            <div class="home-layout">
+                <div class="container">
+                    {{ content }}
+                </div>
+            </div>
+        {% elsif page.url == '/components' or page.url == '/components/' %}
+            <div class="components-layout">
+                <div class="container">
+                    {{ content }}
+                </div>
+            </div>
+        {% else %}
+            <div class="page-layout">
+                <div class="container">
+                    {{ content }}
+                </div>
+            </div>
+        {% endif %}
     </main>
 
-    <footer style="background-color: #FAFBFC; padding: var(--spacing-xl) 0; margin-top: var(--spacing-xxl);">
+    <footer class="footer">
         <div class="container">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--spacing-md);">
+            <div class="footer-content">
                 <div>
-                    <div class="text-h3" style="margin-bottom: var(--spacing-xs);">김준희.dev</div>
-                    <p style="color: var(--color-text-muted); font-size: var(--font-size-small);">
+                    <div class="footer-brand">김준희.dev</div>
+                    <p class="footer-text">
                         &copy; {{ site.time | date: '%Y' }} {{ site.author.name }}. All rights reserved.
                     </p>
                 </div>
-                <div style="display: flex; gap: var(--spacing-md);">
+                <div class="footer-links">
                     {% if site.author.github %}
-                        <a href="https://github.com/{{ site.author.github }}" target="_blank" 
-                           style="color: var(--color-text-muted); font-size: var(--font-size-small); transition: color var(--transition-fast);"
-                           onmouseover="this.style.color='var(--color-primary-text)'"
-                           onmouseout="this.style.color='var(--color-text-muted)'">GitHub</a>
+                        <a href="https://github.com/{{ site.author.github }}" target="_blank">GitHub</a>
                     {% endif %}
                     {% if site.social_links.twitter %}
-                        <a href="https://twitter.com/{{ site.social_links.twitter }}" target="_blank"
-                           style="color: var(--color-text-muted); font-size: var(--font-size-small); transition: color var(--transition-fast);"
-                           onmouseover="this.style.color='var(--color-primary-text)'"
-                           onmouseout="this.style.color='var(--color-text-muted)'">Twitter</a>
+                        <a href="https://twitter.com/{{ site.social_links.twitter }}" target="_blank">Twitter</a>
                     {% endif %}
                     {% if site.social_links.linkedin %}
-                        <a href="https://linkedin.com/in/{{ site.social_links.linkedin }}" target="_blank"
-                           style="color: var(--color-text-muted); font-size: var(--font-size-small); transition: color var(--transition-fast);"
-                           onmouseover="this.style.color='var(--color-primary-text)'"
-                           onmouseout="this.style.color='var(--color-text-muted)'">LinkedIn</a>
+                        <a href="https://linkedin.com/in/{{ site.social_links.linkedin }}" target="_blank">LinkedIn</a>
                     {% endif %}
                 </div>
             </div>
         </div>
     </footer>
+
+    <!-- 코드 블록 복사 기능 -->
+    <script src="{{ '/assets/js/code-copy.js' | relative_url }}"></script>
 </body>
 </html>

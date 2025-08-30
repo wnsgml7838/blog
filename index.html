@@ -1,0 +1,54 @@
+---
+layout: home
+title: "홈"
+---
+
+<div class="home">
+  <h1>개발 블로그에 오신 것을 환영합니다!</h1>
+  <p>이곳은 개발과 기술에 대한 이야기를 나누는 공간입니다.</p>
+
+  <h2>최신 포스트</h2>
+
+  <ul class="post-list">
+    {% for post in paginator.posts %}
+      <li>
+        <span class="post-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        {% if post.excerpt %}
+          {{ post.excerpt }}
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <!-- Pagination links -->
+  {% if paginator.total_pages > 1 %}
+  <div class="pagination">
+    {% if paginator.previous_page %}
+      <a href="{{ paginator.previous_page_path | relative_url }}">&laquo; 이전</a>
+    {% else %}
+      <span>&laquo; 이전</span>
+    {% endif %}
+
+    {% for page in (1..paginator.total_pages) %}
+      {% if page == paginator.page %}
+        <em>{{ page }}</em>
+      {% elsif page == 1 %}
+        <a href="{{ '/' | relative_url }}">{{ page }}</a>
+      {% else %}
+        <a href="{{ site.paginate_path | relative_url | replace: ':num', page }}">{{ page }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if paginator.next_page %}
+      <a href="{{ paginator.next_page_path | relative_url }}">다음 &raquo;</a>
+    {% else %}
+      <span>다음 &raquo;</span>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
