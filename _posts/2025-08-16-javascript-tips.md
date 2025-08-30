@@ -2,7 +2,7 @@
 layout: post
 title: "유용한 JavaScript 팁 5가지"
 date: 2025-08-16 16:00:00 +0900
-categories: [Frontend, JavaScript]
+categories: [개발]
 tags: [javascript, tips, es6, programming]
 excerpt: "개발할 때 유용한 JavaScript 팁들을 소개합니다."
 ---

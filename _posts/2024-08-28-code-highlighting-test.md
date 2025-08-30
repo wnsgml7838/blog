@@ -2,7 +2,7 @@
 layout: post
 title: "코드 하이라이팅 테스트"
 date: 2024-08-28 15:00:00 +0900
-categories: [개발, 테스트]
+categories: [개발]
 tags: [코드, 하이라이팅, 블로그]
 author: 김준희
 ---

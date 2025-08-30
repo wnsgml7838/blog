@@ -1,0 +1,155 @@
+<!-- Giscus 댓글 시스템 -->
+{% if site.comments.giscus.enabled and page.comments != false %}
+<section class="comments-section" id="comments">
+  <div class="container">
+    <!-- Giscus 댓글 위젯 -->
+    <div class="card card-clickable">
+      <div class="card-content" style="padding: var(--spacing-lg);">
+        <script src="https://giscus.app/client.js"
+              data-repo="{{ site.comments.giscus.repo }}"
+              data-repo-id="{{ site.comments.giscus.repo_id }}"
+              data-category="{{ site.comments.giscus.category }}"
+              data-category-id="{{ site.comments.giscus.category_id }}"
+              data-mapping="{{ site.comments.giscus.mapping | default: 'pathname' }}"
+              data-strict="{{ site.comments.giscus.strict | default: '0' }}"
+              data-reactions-enabled="{{ site.comments.giscus.reactions_enabled | default: '1' }}"
+              data-emit-metadata="{{ site.comments.giscus.emit_metadata | default: '0' }}"
+              data-input-position="{{ site.comments.giscus.input_position | default: 'bottom' }}"
+              data-theme="{{ site.comments.giscus.theme | default: 'light' }}"
+              data-lang="{{ site.comments.giscus.language | default: 'ko' }}"
+              data-loading="lazy"
+              crossorigin="anonymous"
+              async>
+      </script>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 다크모드 지원 스크립트 -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const giscusFrame = document.querySelector('iframe[src*="giscus"]');
+  
+  // 다크모드 감지 및 테마 변경 함수
+  function updateGiscusTheme() {
+    const isDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = isDarkMode ? 'dark' : 'light';
+    
+    if (giscusFrame) {
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      giscusFrame.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+    }
+  }
+  
+  // 시스템 다크모드 변경 감지
+  if (window.matchMedia) {
+    const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    darkModeQuery.addListener(updateGiscusTheme);
+  }
+  
+  // Giscus iframe 로드 완료 후 테마 설정
+  window.addEventListener('message', function(event) {
+    if (event.origin !== 'https://giscus.app') return;
+    if (event.data.giscus && event.data.giscus.ready) {
+      updateGiscusTheme();
+    }
+  });
+});
+</script>
+
+<!-- 댓글 섹션 스타일 -->
+<style>
+.comments-section {
+  margin-top: var(--spacing-xxl);
+  padding-top: var(--spacing-xl);
+  border-top: 2px solid var(--color-border);
+  position: relative;
+}
+
+.comments-section::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
+  border-radius: 1px;
+}
+
+/* Giscus iframe 스타일링 */
+.card-content iframe.giscus-frame {
+  width: 100% !important;
+  border: none !important;
+  background: transparent !important;
+  padding: var(--spacing-md);
+}
+
+/* 로딩 상태 스타일 */
+.card-content:not(:has(iframe)) {
+  min-height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-bg-secondary);
+  position: relative;
+}
+
+.card-content:not(:has(iframe))::after {
+  content: "💬 댓글을 불러오는 중...";
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .comments-section {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+  }
+  
+  .comments-section::before {
+    width: 60px;
+  }
+  
+  .card-content:not(:has(iframe)) {
+    min-height: 200px;
+  }
+}
+
+/* 애니메이션 */
+.comments-section {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 감소된 모션 선호 사용자를 위한 설정 */
+@media (prefers-reduced-motion: reduce) {
+  .comments-section {
+    animation: none;
+  }
+  
+  .giscus-wrapper {
+    transition: none;
+  }
+}
+</style>
+{% endif %}

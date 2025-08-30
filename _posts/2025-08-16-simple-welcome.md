@@ -2,7 +2,7 @@
 layout: post
 title: "블로그 UI 개선 완료!"
 date: 2025-08-16 15:00:00 +0900
-categories: [공지, 업데이트]
+categories: [프로젝트]
 tags: [ui, design, dark-mode, 개선]
 excerpt: "서브 에이전트들을 활용해 기술 블로그 UI를 대폭 개선했습니다."
 ---

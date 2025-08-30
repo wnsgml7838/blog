@@ -19,12 +19,12 @@ layout: default
 
     <!-- 카테고리 필터 -->
     <section style="margin-bottom: var(--spacing-xl);">
-        <div style="display: flex; gap: var(--spacing-xs); justify-content: center; flex-wrap: wrap;">
-            <span class="tag tag-primary">전체</span>
-            <span class="tag">개발</span>
-            <span class="tag">일상</span>
-            <span class="tag">학습</span>
-            <span class="tag">프로젝트</span>
+        <div style="display: flex; gap: var(--spacing-sm); justify-content: center; flex-wrap: wrap;">
+            <button class="btn btn-primary category-filter-btn" data-category="all">전체</button>
+            <button class="btn btn-secondary category-filter-btn" data-category="개발">개발</button>
+            <button class="btn btn-secondary category-filter-btn" data-category="일상">일상</button>
+            <button class="btn btn-secondary category-filter-btn" data-category="학습">학습</button>
+            <button class="btn btn-secondary category-filter-btn" data-category="프로젝트">프로젝트</button>
         </div>
     </section>
 
@@ -39,7 +39,7 @@ layout: default
             <div class="grid grid-3">
                 {% assign recent_posts = site.posts | slice: 0, 6 %}
                 {% for post in recent_posts %}
-                    <a href="{{ post.url | relative_url }}" class="article-card">
+                    <a href="{{ post.url | relative_url }}" class="article-card post-item" data-categories="{% for cat in post.categories %}{{ cat | downcase }}{% unless forloop.last %},{% endunless %}{% endfor %}">
                         <div class="article-card-title">{{ post.title }}</div>
                         <div class="article-card-description">
                             {% if post.excerpt %}
@@ -129,6 +129,16 @@ html {
     scroll-behavior: smooth;
 }
 
+/* 카테고리 필터 버튼 - 기존 버튼 컴포넌트 활용 */
+.category-filter-btn {
+    /* btn 클래스의 기본 스타일 활용 */
+}
+
+/* 포스트 숨김 */
+.post-item.hidden {
+    display: none !important;
+}
+
 /* 호버 효과 개선 */
 .tag:hover {
     transform: translateY(-1px);
@@ -154,3 +164,66 @@ html {
     }
 }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.category-filter-btn');
+    const postItems = document.querySelectorAll('.post-item');
+    
+    // 카테고리 필터 버튼 클릭 이벤트
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const selectedCategory = this.dataset.category;
+            
+            // 버튼 스타일 업데이트 - btn-primary와 btn-secondary 토글
+            filterButtons.forEach(btn => {
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-secondary');
+            });
+            // 선택된 버튼은 btn-primary로 변경
+            this.classList.remove('btn-secondary');
+            this.classList.add('btn-primary');
+            
+            // 포스트 필터링
+            postItems.forEach(post => {
+                const postCategories = post.dataset.categories ? post.dataset.categories.toLowerCase() : '';
+                
+                if (selectedCategory === 'all') {
+                    post.classList.remove('hidden');
+                } else {
+                    if (postCategories.includes(selectedCategory.toLowerCase())) {
+                        post.classList.remove('hidden');
+                    } else {
+                        post.classList.add('hidden');
+                    }
+                }
+            });
+            
+            // 모든 포스트가 숨겨진 경우 메시지 표시
+            const visiblePosts = document.querySelectorAll('.post-item:not(.hidden)');
+            const postsContainer = document.querySelector('.grid-3');
+            
+            if (visiblePosts.length === 0 && postsContainer) {
+                // 기존 메시지가 없으면 추가
+                if (!document.getElementById('no-posts-message')) {
+                    const noPostsMessage = document.createElement('div');
+                    noPostsMessage.id = 'no-posts-message';
+                    noPostsMessage.className = 'card';
+                    noPostsMessage.style.cssText = 'text-align: center; padding: var(--spacing-xl); grid-column: 1 / -1;';
+                    noPostsMessage.innerHTML = `
+                        <h3 class="text-h3" style="margin-bottom: var(--spacing-md);">해당 카테고리에 포스트가 없습니다</h3>
+                        <p class="text-muted">아직 ${selectedCategory} 카테고리의 포스트가 없습니다. 곧 새로운 글을 작성할 예정입니다!</p>
+                    `;
+                    postsContainer.appendChild(noPostsMessage);
+                }
+            } else {
+                // 메시지 제거
+                const message = document.getElementById('no-posts-message');
+                if (message) {
+                    message.remove();
+                }
+            }
+        });
+    });
+});
+</script>

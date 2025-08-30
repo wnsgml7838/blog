@@ -131,6 +131,22 @@ social_links:
   twitter: 
   linkedin:
 
+# 댓글 시스템 설정 (Giscus)
+comments:
+  giscus:
+    enabled: true
+    repo: "wnsgml7838/blog"
+    repo_id: "R_kgDOPfB7QQ"  # Repository ID 설정 완료
+    category: "Announcements"  # GitHub Discussions의 Announcements 카테고리 사용
+    category_id: "DIC_kwDOPfB7Qc4CuxSR"  # Category ID 설정 완료
+    mapping: "pathname"
+    strict: "0"
+    reactions_enabled: "1"
+    emit_metadata: "0"
+    input_position: "bottom"
+    theme: "light"
+    language: "ko"
+
 # 기술 블로그 설정
 tech_blog:
   # 읽기 시간 계산 (단어당 분)

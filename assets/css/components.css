@@ -745,6 +745,159 @@
 }
 
 /* =============================================
+ * 댓글 시스템 전용 스타일
+ * ============================================= */
+
+.comments-section {
+  margin-top: calc(var(--spacing-2xl) + var(--spacing-lg));
+  padding-top: var(--spacing-xl);
+  border-top: 2px solid var(--color-border);
+  position: relative;
+}
+
+.comments-section::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
+  border-radius: 1px;
+}
+
+.comments-title {
+  font-size: var(--font-size-3xl);
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  line-height: var(--line-height-snug);
+}
+
+.comments-description {
+  margin-bottom: var(--spacing-lg);
+  padding: var(--spacing-sm) 0;
+}
+
+.comments-description p {
+  font-size: var(--font-size-md);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  margin: 0;
+  font-style: italic;
+}
+
+.giscus-wrapper {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
+  border: 1px solid var(--color-border);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.giscus-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-primary-hover));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.giscus-wrapper:hover::before {
+  opacity: 1;
+}
+
+.giscus-wrapper:hover {
+  border-color: var(--color-primary-light);
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-1px);
+}
+
+/* Giscus iframe 최적화 */
+.giscus-wrapper iframe {
+  width: 100% !important;
+  border: none !important;
+  border-radius: var(--radius-md) !important;
+  background: transparent !important;
+}
+
+/* 로딩 스타일 개선 */
+.giscus-wrapper:not(:has(iframe)) {
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--color-bg-secondary) 0%, var(--color-bg-primary) 100%);
+  position: relative;
+}
+
+.giscus-wrapper:not(:has(iframe))::after {
+  content: "💬 댓글을 불러오는 중...";
+  color: var(--color-text-tertiary);
+  font-size: var(--font-size-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/* 댓글 섹션 애니메이션 */
+.comments-section {
+  animation: slideInFromBottom 0.8s ease-out;
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+  .comments-section {
+    margin-top: var(--spacing-xl);
+    padding-top: var(--spacing-lg);
+  }
+  
+  .comments-section::before {
+    width: 40px;
+  }
+  
+  .comments-title {
+    font-size: var(--font-size-2xl);
+    gap: 6px;
+  }
+  
+  .comments-description p {
+    font-size: var(--font-size-sm);
+  }
+  
+  .giscus-wrapper {
+    padding: var(--spacing-md);
+    border-radius: var(--radius-lg);
+  }
+  
+  .giscus-wrapper:not(:has(iframe)) {
+    min-height: 200px;
+  }
+}
+
+/* =============================================
  * 접근성 개선
  * ============================================= */
 
