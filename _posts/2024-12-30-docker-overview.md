@@ -45,7 +45,6 @@ author: 김준희
 - 하드웨어 → Host OS → 하이퍼바이저 : type 1에 비해서 성능이 떨어짐
 - 제품 : Virtualbox, Vmware, Parrallels 등
 
----
 
 ### 컨테이너
 
@@ -91,7 +90,6 @@ cgroup(컨트롤 그룹) : Limit How much you can use
 - /cpu_mem_cg는 **systemd(리눅스 init 프로세스)[를 더 많이 사용하는 추세]**와 cgroupfs(리눅스 커널)와 같아 "cgroup 계층"의 최상위 관리 주체를 나타냄
 - cg와 cg2는 각 컨테이너에 할당된 리소스 그룹
 
----
 
 ## 가상화 개념과 컨테이너
 
