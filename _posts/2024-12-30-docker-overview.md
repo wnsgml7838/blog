@@ -2,7 +2,7 @@
 layout: post
 title: "도커 개요"
 date: 2024-12-30
-categories: [Docker, DevOps]
+categories: [학습]
 tags: [Docker, Container, Virtualization, Kubernetes]
 author: 김준희
 ---
