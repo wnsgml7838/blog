@@ -39,7 +39,7 @@ layout: default
             <div class="grid grid-3">
                 {% assign recent_posts = site.posts | slice: 0, 6 %}
                 {% for post in recent_posts %}
-                    <a href="{{ post.url | relative_url }}" class="article-card post-item" data-categories="{% for cat in post.categories %}{{ cat | downcase }}{% unless forloop.last %},{% endunless %}{% endfor %}">
+                    <a href="{{ post.url | relative_url }}" class="article-card post-item" data-categories="{% for cat in post.categories %}{{ cat }}{% unless forloop.last %},{% endunless %}{% endfor %}">
                         <div class="article-card-title">{{ post.title }}</div>
                         <div class="article-card-description">
                             {% if post.excerpt %}
@@ -186,12 +186,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // 포스트 필터링
             postItems.forEach(post => {
-                const postCategories = post.dataset.categories ? post.dataset.categories.toLowerCase() : '';
+                const postCategories = post.dataset.categories ? post.dataset.categories : '';
                 
                 if (selectedCategory === 'all') {
                     post.classList.remove('hidden');
                 } else {
-                    if (postCategories.includes(selectedCategory.toLowerCase())) {
+                    if (postCategories.includes(selectedCategory)) {
                         post.classList.remove('hidden');
                     } else {
                         post.classList.add('hidden');

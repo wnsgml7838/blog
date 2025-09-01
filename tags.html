@@ -1,0 +1,132 @@
+---
+layout: default
+title: "태그"
+permalink: /tags/
+---
+
+<div class="tags-page">
+    <section style="text-align: center; margin-bottom: var(--spacing-xxl);">
+        <h1 class="text-hero" style="margin-bottom: var(--spacing-md); color: var(--color-primary-text);">
+            🏷️ 태그
+        </h1>
+        <p class="text-body text-muted" style="max-width: 600px; margin: 0 auto;">
+            관심있는 태그를 클릭하면 관련 포스트를 볼 수 있습니다.
+        </p>
+    </section>
+
+    <!-- 태그 클라우드 -->
+    <section style="margin-bottom: var(--spacing-xxl);">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">모든 태그</div>
+                <div class="card-description">포스트에 사용된 모든 태그를 한눈에 보세요</div>
+            </div>
+            <div class="card-content">
+                <div style="display: flex; gap: var(--spacing-sm); flex-wrap: wrap; justify-content: center;">
+                    {% assign tags = site.tags | sort %}
+                    {% for tag in tags %}
+                        {% assign tag_name = tag[0] %}
+                        {% assign tag_posts = tag[1] %}
+                        {% assign post_count = tag_posts | size %}
+                        
+                        {% if tag_name == 'Docker' or tag_name == 'Kubernetes' or tag_name == 'Container' or tag_name == 'Virtualization' %}
+                            <a href="#{{ tag_name | slugify }}" class="tag tag-primary" style="font-size: calc(14px + {{ post_count | times: 2 }}px);">
+                                {{ tag_name }} ({{ post_count }})
+                            </a>
+                        {% elsif tag_name == 'JavaScript' or tag_name == 'javascript' or tag_name == 'React' or tag_name == 'es6' %}
+                            <a href="#{{ tag_name | slugify }}" class="tag tag-success" style="font-size: calc(14px + {{ post_count | times: 2 }}px);">
+                                {{ tag_name }} ({{ post_count }})
+                            </a>
+                        {% elsif tag_name == 'Design' or tag_name == 'design' or tag_name == 'ui' or tag_name == 'UX' or tag_name == 'dark-mode' %}
+                            <a href="#{{ tag_name | slugify }}" class="tag tag-warning" style="font-size: calc(14px + {{ post_count | times: 2 }}px);">
+                                {{ tag_name }} ({{ post_count }})
+                            </a>
+                        {% else %}
+                            <a href="#{{ tag_name | slugify }}" class="tag" style="font-size: calc(14px + {{ post_count | times: 2 }}px);">
+                                {{ tag_name }} ({{ post_count }})
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 태그별 포스트 목록 -->
+    <section>
+        {% assign tags = site.tags | sort %}
+        {% for tag in tags %}
+            {% assign tag_name = tag[0] %}
+            {% assign tag_posts = tag[1] %}
+            
+            <div id="{{ tag_name | slugify }}" class="tag-section" style="margin-bottom: var(--spacing-xxl);">
+                <h2 class="text-h2" style="margin-bottom: var(--spacing-lg);">
+                    {% if tag_name == 'Docker' or tag_name == 'Kubernetes' or tag_name == 'Container' or tag_name == 'Virtualization' %}
+                        <span class="tag tag-primary">{{ tag_name }}</span>
+                    {% elsif tag_name == 'JavaScript' or tag_name == 'javascript' or tag_name == 'React' or tag_name == 'es6' %}
+                        <span class="tag tag-success">{{ tag_name }}</span>
+                    {% elsif tag_name == 'Design' or tag_name == 'design' or tag_name == 'ui' or tag_name == 'UX' or tag_name == 'dark-mode' %}
+                        <span class="tag tag-warning">{{ tag_name }}</span>
+                    {% else %}
+                        <span class="tag">{{ tag_name }}</span>
+                    {% endif %}
+                    <span class="text-muted" style="font-size: var(--font-size-md); margin-left: var(--spacing-sm);">
+                        {{ tag_posts | size }}개 포스트
+                    </span>
+                </h2>
+                
+                <div class="grid grid-3">
+                    {% for post in tag_posts %}
+                        <a href="{{ post.url | relative_url }}" class="article-card">
+                            <div class="article-card-title">{{ post.title }}</div>
+                            <div class="article-card-description">
+                                {% if post.excerpt %}
+                                    {{ post.excerpt | strip_html | truncatewords: 20 }}
+                                {% else %}
+                                    {{ post.content | strip_html | truncatewords: 20 }}
+                                {% endif %}
+                            </div>
+                            <div class="article-card-meta">
+                                <span>{{ post.date | date: "%Y.%m.%d" }}</span>
+                                <span>•</span>
+                                <span>{{ post.author | default: site.author.name }}</span>
+                            </div>
+                            {% if post.categories.size > 0 %}
+                                <div class="article-card-categories">
+                                    {% for category in post.categories %}
+                                        <span class="text-small text-muted">{{ category }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+</div>
+
+<style>
+/* 부드러운 스크롤 */
+html {
+    scroll-behavior: smooth;
+}
+
+/* 태그 섹션 스타일 */
+.tag-section {
+    padding-top: var(--spacing-xl);
+}
+
+/* 태그 호버 효과 */
+.tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
